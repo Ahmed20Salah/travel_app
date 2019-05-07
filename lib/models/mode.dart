@@ -1,0 +1,4 @@
+enum Expend{
+  single,
+  all
+}
