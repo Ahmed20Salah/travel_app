@@ -68,7 +68,8 @@ class _HomeState extends State<Home> {
             decoration: BoxDecoration(
               border: Border(
                 top: BorderSide(
-                    width: 3.0, color: Theme.of(context).accentColor),
+                    width: 3.0,
+                    color: Color.fromRGBO(37, 37, 37, 1)),
               ),
             ),
             child: IconButton(
@@ -91,7 +92,7 @@ class _HomeState extends State<Home> {
                 top: BorderSide(
                     width: 3.0,
                     color: _catagoryColor == null
-                        ?  Color.fromRGBO(121, 121, 121, 1)
+                        ?  Color.fromRGBO(37, 37, 37, 1)
                         : _catagoryColor),
               ),
             ),
@@ -116,7 +117,7 @@ class _HomeState extends State<Home> {
               border: Border(
                 top: BorderSide(
                     width: 3.0, color: _discoverColor == null
-                    ?  Color.fromRGBO(121, 121, 121, 1)
+                    ?  Color.fromRGBO(37, 37, 37, 1)
                     : _discoverColor),
               ),
             ),
@@ -144,7 +145,7 @@ class _HomeState extends State<Home> {
               border: Border(
                 top: BorderSide(
                     width: 3.0, color: _searchColor == null
-                    ?  Color.fromRGBO(121, 121, 121, 1)
+                    ? Color.fromRGBO(37, 37, 37, 1)
                     : _catagoryColor),
               ),
             ),
@@ -168,9 +169,9 @@ class _HomeState extends State<Home> {
             decoration: BoxDecoration(
               border: Border(
                 top: BorderSide(
-                    width: 3.0, color: Theme.of(context).accentColor),
+                    width: 3.0, color:Color.fromARGB(37,37,37,1),
               ),
-            ),
+            ),),
             child: IconButton(
                 icon: Icon(Icons.camera_alt,
                     color: Color.fromRGBO(121, 121, 121, 1), size: 32.0),
