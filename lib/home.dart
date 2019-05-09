@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
     '/': () => MaterialPageRoute(builder: (context) => Category()),
   };
 
-  Color _catagoryColor;
+  Color _catagoryColor = Color.fromRGBO(221, 103, 119, 0);
   Color _discoverColor;
   Color _searchColor;
 
@@ -68,8 +68,7 @@ class _HomeState extends State<Home> {
             decoration: BoxDecoration(
               border: Border(
                 top: BorderSide(
-                    width: 3.0,
-                    color: Color.fromRGBO(37, 37, 37, 1)),
+                    width: 3.0, color: Color.fromRGBO(37, 37, 37, 1)),
               ),
             ),
             child: IconButton(
@@ -92,13 +91,16 @@ class _HomeState extends State<Home> {
                 top: BorderSide(
                     width: 3.0,
                     color: _catagoryColor == null
-                        ?  Color.fromRGBO(37, 37, 37, 1)
+                        ? Color.fromRGBO(37, 37, 37, 1)
                         : _catagoryColor),
               ),
             ),
             child: IconButton(
-                icon: Icon(Icons.apps, size: 32.0),
-                color: Color.fromRGBO(121, 121, 121, 1),
+                icon: Icon(Icons.apps,
+                    color: _catagoryColor == null
+                        ? Color.fromRGBO(121, 121, 121, 1)
+                        : _catagoryColor,
+                    size: 32.0),
                 onPressed: () {
                   setState(() {
                     _catagoryColor = Theme.of(context).accentColor;
@@ -116,16 +118,19 @@ class _HomeState extends State<Home> {
             decoration: BoxDecoration(
               border: Border(
                 top: BorderSide(
-                    width: 3.0, color: _discoverColor == null
-                    ?  Color.fromRGBO(37, 37, 37, 1)
-                    : _discoverColor),
+                    width: 3.0,
+                    color: _discoverColor == null
+                        ? Color.fromRGBO(37, 37, 37, 1)
+                        : _discoverColor),
               ),
             ),
             child: IconButton(
                 icon: Icon(
                   Icons.location_on,
-                  color: Color.fromRGBO(121, 121, 121, 1),
-                  size: 32.0,
+                  color: _discoverColor == null
+                      ? Color.fromRGBO(121, 121, 121, 1)
+                      : _discoverColor,
+                  size: 32,
                 ),
                 onPressed: () {
                   setState(() {
@@ -144,22 +149,35 @@ class _HomeState extends State<Home> {
             decoration: BoxDecoration(
               border: Border(
                 top: BorderSide(
-                    width: 3.0, color: _searchColor == null
-                    ? Color.fromRGBO(37, 37, 37, 1)
-                    : _catagoryColor),
+                    width: 3.0,
+                    color: _searchColor == null
+                        ? Color.fromRGBO(37, 37, 37, 1)
+                        : _searchColor),
               ),
             ),
             child: IconButton(
-                icon: Icon(Icons.search,
-                    color: Color.fromRGBO(121, 121, 121, 1), size: 32.0),
+                icon: Icon(
+                  Icons.search,
+                  color: _searchColor == null
+                      ? Color.fromRGBO(121, 121, 121, 1)
+                      : _searchColor,
+                  size: 32.0,
+                ),
                 onPressed: () {
                   setState(() {
+                    showDialog(
+                      context: context,
+                      child: AlertDialog(
+                        title:Text('sorry this closed'),
+                        content: Text('this still inderdeveloping'),
+
+                      ),
+                    );
                     _searchColor = Theme.of(context).accentColor;
                     _catagoryColor = null;
                     _discoverColor = null;
                   });
-                  navigatorKey.currentState
-                      .pushReplacementNamed(pages.keys.toList()[1]);
+                  // navigatorKey.currentState.pushReplacementNamed(pages.keys.toList()[1]);
                 }),
           ),
 //
@@ -169,9 +187,11 @@ class _HomeState extends State<Home> {
             decoration: BoxDecoration(
               border: Border(
                 top: BorderSide(
-                    width: 3.0, color:Color.fromARGB(37,37,37,1),
+                  width: 3.0,
+                  color: Color.fromARGB(37, 37, 37, 1),
+                ),
               ),
-            ),),
+            ),
             child: IconButton(
                 icon: Icon(Icons.camera_alt,
                     color: Color.fromRGBO(121, 121, 121, 1), size: 32.0),

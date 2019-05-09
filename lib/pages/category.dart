@@ -7,8 +7,8 @@ class Category extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(children: <Widget>[
       Container(
-          color: Color.fromRGBO(21, 21, 21, 1),
-          constraints: BoxConstraints.expand(),
+        color: Color.fromRGBO(21, 21, 21, 1),
+        constraints: BoxConstraints.expand(),
       ),
       Scaffold(
         backgroundColor: Colors.transparent,
@@ -46,17 +46,17 @@ class Category extends StatelessWidget {
                         padding: EdgeInsets.symmetric(
                             vertical: 30.0, horizontal: 18.0),
                         child: Text(
-                          'Family Safari Vacation To The Home of The Gods Travel health useful medical information for good health be',
+                          'Family Safari Vacation To The Home of The Gods \n Travel health useful medical information \n for good health be',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.white54, fontSize: 17, height: 1.2),
                         ),
                       ),
                       mountain(context),
-                      _landscape(),
-                      _city(),
-                      _sea(),
-                      _culture(),
+                      _landscape(context),
+                      _city(context),
+                      _sea(context),
+                      _culture(context),
                     ],
                   ),
                 ),
@@ -84,10 +84,7 @@ class Category extends StatelessWidget {
           Navigator.pushNamed(context, 'mountainIn');
         },
         leading: Container(
-          child: Icon(
-            Icons.add,
-            size: 100.0,
-          ),
+          child: Image.asset('assets/icons/mountain.png'),
           width: 110.0,
         ),
         title: Container(
@@ -112,7 +109,7 @@ class Category extends StatelessWidget {
     );
   }
 
-  Widget _landscape() {
+  Widget _landscape(context) {
     return Container(
       height: 160.0,
       margin: EdgeInsets.all(20.0),
@@ -124,18 +121,22 @@ class Category extends StatelessWidget {
       ),
       alignment: Alignment.center,
       child: ListTile(
+        onTap: (){
+          showDialog(context: context, child: AlertDialog(
+            title:Text('sorry this closed'),
+            content: Text('this still under developing you can try "Mountain"'),
+
+          ),);
+        },
         leading: Container(
-          child: Icon(
-            Icons.add,
-            size: 100.0,
-          ),
+          child: Image.asset('assets/icons/air-balloon-96.png'),
           width: 110.0,
         ),
         title: Container(
           height: 60.0,
           alignment: Alignment.bottomLeft,
           margin: EdgeInsets.only(bottom: 15.0),
-          child: Text('MOUNTAIN'),
+          child: Text('LANDSCAPE'),
         ),
         subtitle: Container(
           height: 60.0,
@@ -153,7 +154,7 @@ class Category extends StatelessWidget {
     );
   }
 
-  Widget _city() {
+  Widget _city(context) {
     return Container(
       height: 160.0,
       margin: EdgeInsets.all(20.0),
@@ -165,18 +166,22 @@ class Category extends StatelessWidget {
       ),
       alignment: Alignment.center,
       child: ListTile(
+        onTap: (){
+          showDialog(context: context, child: AlertDialog(
+            title:Text('sorry this closed'),
+            content: Text('this still under developing  you can try "Mountain"'),
+
+          ),);
+        },
         leading: Container(
-          child: Icon(
-            Icons.add,
-            size: 100.0,
-          ),
+          child: Image.asset('assets/icons/city-100.png'),
           width: 110.0,
         ),
         title: Container(
           height: 60.0,
           alignment: Alignment.bottomLeft,
           margin: EdgeInsets.only(bottom: 15.0),
-          child: Text('MOUNTAIN'),
+          child: Text('CITY'),
         ),
         subtitle: Container(
           height: 60.0,
@@ -194,7 +199,7 @@ class Category extends StatelessWidget {
     );
   }
 
-  Widget _sea() {
+  Widget _sea(context) {
     return Container(
       height: 160.0,
       margin: EdgeInsets.all(20.0),
@@ -206,18 +211,22 @@ class Category extends StatelessWidget {
       ),
       alignment: Alignment.center,
       child: ListTile(
+        onTap: (){
+          showDialog(context: context, child: AlertDialog(
+            title:Text('sorry this closed'),
+            content: Text('this still under developing you can try "Mountain"'),
+
+          ),);
+        },
         leading: Container(
-          child: Icon(
-            Icons.add,
-            size: 100.0,
-          ),
+          child: Image.asset('assets/icons/transportation-96.png'),
           width: 110.0,
         ),
         title: Container(
           height: 60.0,
           alignment: Alignment.bottomLeft,
           margin: EdgeInsets.only(bottom: 15.0),
-          child: Text('MOUNTAIN'),
+          child: Text('SEA'),
         ),
         subtitle: Container(
           height: 60.0,
@@ -235,7 +244,7 @@ class Category extends StatelessWidget {
     );
   }
 
-  Widget _culture() {
+  Widget _culture(context) {
     return Container(
       height: 160.0,
       margin: EdgeInsets.all(20.0),
@@ -247,18 +256,22 @@ class Category extends StatelessWidget {
       ),
       alignment: Alignment.center,
       child: ListTile(
+        onTap: (){
+          showDialog(context: context, child: AlertDialog(
+            title:Text('sorry this closed'),
+            content: Text('this still under developing you can try "Mountain"'),
+
+          ),);
+        },
         leading: Container(
-          child: Icon(
-            Icons.add,
-            size: 100.0,
-          ),
+          child: Image.asset('assets/icons/physics-book.png'),
           width: 110.0,
         ),
         title: Container(
           height: 60.0,
           alignment: Alignment.bottomLeft,
           margin: EdgeInsets.only(bottom: 15.0),
-          child: Text('MOUNTAIN'),
+          child: Text('Culture'),
         ),
         subtitle: Container(
           height: 60.0,
