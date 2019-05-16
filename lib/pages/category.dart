@@ -122,7 +122,7 @@ class Category extends StatelessWidget {
       alignment: Alignment.center,
       child: ListTile(
         onTap: (){
-          showDialog(context: context, child: AlertDialog(
+          showDialog(context: context, builder: (context) => AlertDialog(
             title:Text('sorry this closed'),
             content: Text('this still under developing you can try "Mountain"'),
 
@@ -167,7 +167,7 @@ class Category extends StatelessWidget {
       alignment: Alignment.center,
       child: ListTile(
         onTap: (){
-          showDialog(context: context, child: AlertDialog(
+          showDialog(context: context, builder:(context) =>  AlertDialog(
             title:Text('sorry this closed'),
             content: Text('this still under developing  you can try "Mountain"'),
 
@@ -212,7 +212,7 @@ class Category extends StatelessWidget {
       alignment: Alignment.center,
       child: ListTile(
         onTap: (){
-          showDialog(context: context, child: AlertDialog(
+          showDialog(context: context, builder:(context) =>  AlertDialog(
             title:Text('sorry this closed'),
             content: Text('this still under developing you can try "Mountain"'),
 
@@ -257,7 +257,7 @@ class Category extends StatelessWidget {
       alignment: Alignment.center,
       child: ListTile(
         onTap: (){
-          showDialog(context: context, child: AlertDialog(
+          showDialog(context: context, builder:(context) => AlertDialog(
             title:Text('sorry this closed'),
             content: Text('this still under developing you can try "Mountain"'),
 

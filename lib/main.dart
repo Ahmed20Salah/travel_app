@@ -5,6 +5,7 @@ import 'scope_models/users_scope.dart';
 
 import 'home.dart';
 import 'pages/auth.dart';
+import 'pages/intro_slide.dart';
 main() {
 //  debugPaintSizeEnabled = true;
   runApp(App());
@@ -30,18 +31,13 @@ class AppState extends State<App>{
     });
     super.initState();
   }
-
-  void update(){
-    setState(() {
-      auth = true;
-    });
-  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: auth ? Home() : Authenticate(),
+        home: auth ? Home() : Intro_slide(),
         routes: {
           'home' : (BuildContext context) => Home(),
+          'auth': (BuildContext context)=> Authenticate()
         },
         theme: ThemeData(
           brightness: Brightness.dark,

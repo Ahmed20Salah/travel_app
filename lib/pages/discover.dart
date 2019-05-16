@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-
+import 'package:scoped_model/scoped_model.dart';
 import '../widget/divider.dart';
 
-import '../models/posts.dart';
+import '../scope_models/post_scope.dart';
+
 import '../models/mode.dart';
 import '../models/user.dart';
 
@@ -15,60 +16,55 @@ class Discover extends StatefulWidget {
 
 class DiscoverState extends State<Discover> {
   bool expend = false;
+  Post_scope _model = Post_scope();
+
   Expend _statue = Expend.all;
   int _index;
-  List<Posts> _posts = [
-    Posts(
-      user: Users(
-          userName: 'AhmedSalah',
-          userEmail: 'Ahmed@tes.com',
-          picture: 'assets/home.jpg'),
-      image: 'assets/home.jpg',
-      label: 'this From My trip',
-      likes: 10,
-    ),
-    Posts(
-      user: Users(
-          userName: 'AhmedSalah',
-          userEmail: 'Ahmed@tes.com',
-          picture: 'assets/home.jpg'),
-      image: 'assets/home.jpg',
-      label: 'this From My trip',
-      likes: 10,
-    ),
-  ];
-  final Comments _comments = Comments(
-      user: Users(userName: 'ahmedsaka', userEmail: 'ahmed'),
-      comment: 'this good');
-
-  final Users _user = Users(userName: 'ahmed', userEmail: 'ahmed');
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Container(
-          color: Color.fromRGBO(21, 21, 21,1),
-          constraints: BoxConstraints.expand(),
-        ),
-        Container(
-          color: Colors.green,
-          height: 300.0,
-        ),
-
-        Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            elevation: 0.0,
-            title: Text('Discover'),
-            centerTitle: true,
-            backgroundColor: Colors.transparent,
+    return WillPopScope(
+      onWillPop: () {
+        setState(() {
+          _statue = Expend.all;
+        });
+      },
+      child: Stack(
+        children: <Widget>[
+          Container(
+            color: Color.fromRGBO(21, 21, 21, 1),
+            constraints: BoxConstraints.expand(),
           ),
-          body: Container(
-            color: Colors.transparent,
-              child: _statue == Expend.all ? _allPosts() : _singlePost()),
-        )
-      ],
+          Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/adventure.jpg'),
+                    fit: BoxFit.cover,
+                    colorFilter: ColorFilter.mode(
+                        Colors.black.withOpacity(0.8), BlendMode.darken))),
+            height: 300.0,
+          ),
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              elevation: 0.0,
+              title: Text('Discover'),
+              centerTitle: true,
+              backgroundColor: Colors.transparent,
+            ),
+            body: ScopedModel<Post_scope>(
+              model: Post_scope(),
+              child: Container(
+                color: Colors.transparent,
+                child: ScopedModelDescendant(
+                    builder: (BuildContext context, Widget child,
+                            Post_scope _model) =>
+                        _statue == Expend.all ? _allPosts() : _singlePost()),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -80,7 +76,8 @@ class DiscoverState extends State<Discover> {
           return Column(
             children: <Widget>[
               // this for user details
-              _userRow(user: _posts[index].user), // this for image upload
+              _userRow(user: _model.getPosts[index].user),
+              // this for image upload
               Container(
                 height: 250.0,
                 padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -88,7 +85,7 @@ class DiscoverState extends State<Discover> {
                   child: Container(),
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage('${_posts[_index].image}'),
+                          image: AssetImage('${_model.getPosts[_index].image}'),
                           fit: BoxFit.cover),
                       borderRadius: BorderRadius.circular(20.0),
                       color: Colors.grey),
@@ -96,7 +93,7 @@ class DiscoverState extends State<Discover> {
               ),
 
               //this for like , share , comment bar
-              _detailsBar(likes: _posts[_index].likes),
+              _detailsBar(model: _model, index: index),
               OurDivider(
                 pint: Colors.red,
               ),
@@ -105,10 +102,35 @@ class DiscoverState extends State<Discover> {
                 margin: EdgeInsets.only(left: 20.0),
                 padding: EdgeInsets.only(top: 13),
                 child: Text(
-                  _posts[index].label,
+                  _model.getPosts[index].label,
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.4),
+                    color: Colors.grey,
                     fontSize: 15,
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 20.0, top: 10.0),
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      _statue = Expend.all;
+                      _index = index;
+                    });
+                  },
+                  child: Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.settings_backup_restore,
+                        size: 30,
+                        color: Colors.white.withOpacity(0.4),
+                      ),
+                      Text(' back to posts',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 16,
+                              color: Colors.grey))
+                    ],
                   ),
                 ),
               ),
@@ -124,12 +146,12 @@ class DiscoverState extends State<Discover> {
   Widget _allPosts() {
     return ListView.builder(
         shrinkWrap: true,
-        itemCount: _posts.length,
+        itemCount: _model.getPosts.length,
         itemBuilder: (context, int index) {
           return Column(
             children: <Widget>[
               // this for user details
-              _userRow(user: _posts[index].user),
+              _userRow(user: _model.getPosts[index].user),
               // this for image upload
               Container(
                 height: 250.0,
@@ -138,7 +160,7 @@ class DiscoverState extends State<Discover> {
                   child: Container(),
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage('${_posts[index].image}'),
+                          image: AssetImage('${_model.getPosts[index].image}'),
                           fit: BoxFit.cover),
                       borderRadius: BorderRadius.circular(20.0),
                       color: Colors.grey),
@@ -146,7 +168,7 @@ class DiscoverState extends State<Discover> {
               ),
 
               //this for like , share , comment bar
-              _detailsBar(likes: _posts[index].likes),
+              _detailsBar(model: _model, index: index),
               OurDivider(
                 pint: Colors.red,
               ),
@@ -155,7 +177,7 @@ class DiscoverState extends State<Discover> {
                 margin: EdgeInsets.only(left: 20.0),
                 padding: EdgeInsets.only(top: 13),
                 child: Text(
-                  _posts[index].label,
+                  _model.getPosts[index].label,
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.4),
                     fontSize: 15,
@@ -167,11 +189,8 @@ class DiscoverState extends State<Discover> {
                 child: InkWell(
                   onTap: () {
                     setState(() {
-//                      _statue = Expend.single;
+                      _statue = Expend.single;
                       _index = index;
-                      debugPrint(_user.userName);
-                      debugPrint(_comments.user.userName);
-                      debugPrint(_comments.comment.toString());
                     });
                   },
                   child: Row(
@@ -202,18 +221,18 @@ class DiscoverState extends State<Discover> {
     return Container(
       child: ListView.builder(
           shrinkWrap: true,
-          itemCount: _posts[_index].comments.length,
+          itemCount: _model.comments.length,
           itemBuilder: (context, int index) {
             return Column(
               children: <Widget>[
-//                _userRow(user: _posts[_index].comments[0].user),
+                _userRow(user: _model.comments[index].user),
                 Container(
                   alignment: Alignment.topLeft,
                   padding: EdgeInsets.only(left: 20.0, right: 40.0),
-//                  child: Text(
-//                    _posts[_index].comments[index].comment,
-//                    style: TextStyle(color: Colors.black12),
-//                  ),
+                  child: Text(
+                    _model.comments[index].comment,
+                    style: TextStyle(color: Colors.grey),
+                  ),
                 )
               ],
             );
@@ -237,51 +256,60 @@ class DiscoverState extends State<Discover> {
     );
   }
 
-  Widget _detailsBar({int likes = 0}) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          ButtonBar(
-            alignment: MainAxisAlignment.start,
-            children: <Widget>[
-              InkWell(
-                  child: Icon(
-                    Icons.favorite_border,
-                    color: Color.fromRGBO(233, 112, 131, 1),
-                  ),
-                  onTap: null),
-              InkWell(
-                child: Text(
-                  '${likes.toString()} Likes',
-                  style: TextStyle(
-                      fontSize: 17, color: Color.fromRGBO(233, 112, 131, 1)),
+  Widget _detailsBar({Post_scope model, int index}) {
+    bool isFavorite = _model.getPosts[index].favorite;
+    return ScopedModelDescendant<Post_scope>(
+      builder: (BuildContext context, Widget child, Post_scope model) =>
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                ButtonBar(
+                  alignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    InkWell(
+                        child: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color: Color.fromRGBO(233, 112, 131, 1),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            _model.isFavorite(index, !isFavorite);
+                          });
+                        }),
+                    InkWell(
+                      child: Text(
+                        '${_model.getPosts[index].likes.toString()} Likes',
+                        style: TextStyle(
+                            fontSize: 17,
+                            color: Color.fromRGBO(233, 112, 131, 1)),
+                      ),
+                      onTap: () {},
+                    ),
+                  ],
+                  mainAxisSize: MainAxisSize.max,
                 ),
-                onTap: () => debugPrint('tapped'),
-              ),
-            ],
-            mainAxisSize: MainAxisSize.max,
+                ButtonBar(
+                  alignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    InkWell(
+                        child: Icon(
+                          Icons.comment,
+                          color: Color.fromRGBO(233, 112, 131, 1),
+                        ),
+                        onTap: null),
+                    InkWell(
+                        child: Icon(
+                          Icons.share,
+                          color: Color.fromRGBO(233, 112, 131, 1),
+                        ),
+                        onTap: null),
+                  ],
+                )
+              ],
+            ),
           ),
-          ButtonBar(
-            alignment: MainAxisAlignment.end,
-            children: <Widget>[
-              InkWell(
-                  child: Icon(
-                    Icons.comment,
-                    color: Color.fromRGBO(233, 112, 131, 1),
-                  ),
-                  onTap: null),
-              InkWell(
-                  child: Icon(
-                    Icons.share,
-                    color: Color.fromRGBO(233, 112, 131, 1),
-                  ),
-                  onTap: null),
-            ],
-          )
-        ],
-      ),
     );
   }
 }

@@ -24,9 +24,11 @@ dependencies:
   scoped_model: ^0.3.0
   firebase: ^5.0.0
   http: ^0.11.3
-  shared_preferences: ^0.5.1+2
+  shared_preferences: 0.4.3
   rxdart: ^0.21.0
-  image_picker: ^0.4.5
+  image_picker:  0.4.12+1
+  intro_slider: ^2.0.0
+  #google_maps_flutter: 0.1.0
 
 
 

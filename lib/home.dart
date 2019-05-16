@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'package:image_picker/image_picker.dart';
 
+import 'package:scoped_model/scoped_model.dart';
+import 'scope_models/users_scope.dart';
 import 'dart:io';
 
 import 'pages/discover.dart';
 import 'pages/search.dart';
 import 'pages/category.dart';
 import 'pages/mountainsIn.dart';
-import 'pages/post.dart';
+import 'pages/camer.dart';
+import 'pages/auth.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -20,12 +23,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
   GlobalKey<ScaffoldState> _globalKey = GlobalKey();
+  final UserScope _model = UserScope();
   final Map<String, Function> pages = {
     '/discover': () => MaterialPageRoute(builder: (context) => Discover()),
     '/search': () => MaterialPageRoute(builder: (context) => Search()),
-    '/category': () => MaterialPageRoute(builder: (context) => Category()),
     'mountainIn': () => MaterialPageRoute(builder: (context) => MountainsIn()),
-    '/': () => MaterialPageRoute(builder: (context) => Category()),
+    '/': ()=>MaterialPageRoute(builder: (context) => Category())
+
   };
 
   Color _catagoryColor = Color.fromRGBO(221, 103, 119, 0);
@@ -34,11 +38,14 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _globalKey,
-      drawer: _drawer(),
-      body: body(),
-      bottomNavigationBar: _bottomBar(),
+    return ScopedModel<UserScope>(
+      model: _model,
+      child: Scaffold(
+        key: _globalKey,
+        drawer: _drawer(),
+        body: body(),
+        bottomNavigationBar: _bottomBar(),
+      ),
     );
   }
 
@@ -48,7 +55,7 @@ class _HomeState extends State<Home> {
     return MaterialApp(
         theme: ThemeData(
             brightness: Brightness.dark,
-            accentColor: Color.fromRGBO(221, 103, 119, 0)),
+            accentColor: Color.fromRGBO(221, 103, 119, 1)),
         navigatorKey: navigatorKey,
         onGenerateRoute: (route) => pages[route.name]());
   }
@@ -61,9 +68,9 @@ class _HomeState extends State<Home> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-// list of iconButtons
-//
-// for show the drawer
+        // list of iconButtons
+        //
+        // for show the drawer
           Container(
             decoration: BoxDecoration(
               border: Border(
@@ -92,23 +99,24 @@ class _HomeState extends State<Home> {
                     width: 3.0,
                     color: _catagoryColor == null
                         ? Color.fromRGBO(37, 37, 37, 1)
-                        : _catagoryColor),
+                        : Theme.of(context).accentColor),
               ),
             ),
             child: IconButton(
                 icon: Icon(Icons.apps,
                     color: _catagoryColor == null
                         ? Color.fromRGBO(121, 121, 121, 1)
-                        : _catagoryColor,
+                        : Theme.of(context).accentColor,
                     size: 32.0),
                 onPressed: () {
                   setState(() {
                     _catagoryColor = Theme.of(context).accentColor;
+                    print(_catagoryColor);
                     _discoverColor = null;
                     _searchColor = null;
                   });
                   navigatorKey.currentState
-                      .pushReplacementNamed(pages.keys.toList()[2]);
+                      .pushReplacementNamed(pages.keys.toList()[3]);
                 }),
           ),
 //
@@ -165,19 +173,11 @@ class _HomeState extends State<Home> {
                 ),
                 onPressed: () {
                   setState(() {
-                    showDialog(
-                      context: context,
-                      child: AlertDialog(
-                        title:Text('sorry this closed'),
-                        content: Text('this still inderdeveloping'),
-
-                      ),
-                    );
                     _searchColor = Theme.of(context).accentColor;
                     _catagoryColor = null;
                     _discoverColor = null;
                   });
-                  // navigatorKey.currentState.pushReplacementNamed(pages.keys.toList()[1]);
+                   navigatorKey.currentState.pushReplacementNamed(pages.keys.toList()[1]);
                 }),
           ),
 //
@@ -252,116 +252,124 @@ class _HomeState extends State<Home> {
 // for Drawer thing
   Widget _drawer() {
     return Drawer(
-      child: Container(
-        color: Color.fromRGBO(230, 107, 128, 1.0),
-        child: Column(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(top: 60.0),
-              child: ListTile(
-                leading: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.black12,
-                      borderRadius: BorderRadius.circular(30.0)),
-                  width: 60.0,
-                  height: 60.0,
-                ),
-                title: Text(
-                  'username',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.white,
+        child:ScopedModelDescendant(builder: (BuildContext context , Widget child , UserScope model) =>  Container(
+          color: Color.fromRGBO(230, 107, 128, 1.0),
+          child: Column(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 60.0),
+                child: ListTile(
+                  leading: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.black12,
+                        image: DecorationImage(image: AssetImage('assets/guy-high.jpg') , fit: BoxFit.cover),
+                        borderRadius: BorderRadius.circular(30.0)),
+                    width: 60.0,
+                    height: 60.0,
                   ),
-                ),
-                subtitle: Text(
-                  'userEmail@user.com',
-                  style: TextStyle(fontSize: 12.0, color: Colors.white),
+                  title: Text(
+                    'Ahmed Salah',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                  subtitle: Text(
+                    'ahmed@tes.com',
+                    style: TextStyle(fontSize: 12.0, color: Colors.white),
+                  ),
                 ),
               ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 50.0),
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    leading: Icon(
-                      Icons.apps,
-                      size: 30.0,
+              Container(
+                margin: EdgeInsets.only(top: 50.0),
+                child: Column(
+                  children: <Widget>[
+                    ListTile(
+                      leading: Icon(
+                        Icons.apps,
+                        size: 30.0,
+                      ),
+                      title: Text(
+                        'Category',
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                      onTap: (){
+                        Navigator.of(context).pushReplacementNamed('/');
+                      },
                     ),
-                    title: Text(
-                      'Category',
-                      style: TextStyle(fontSize: 18.0),
+                    ListTile(
+                      leading: Icon(
+                        Icons.location_on,
+                        size: 30.0,
+                      ),
+                      title: Text(
+                        'Near by Area',
+                        style: TextStyle(fontSize: 18.0),
+                      ),
                     ),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.location_on,
-                      size: 30.0,
+                    ListTile(
+                      leading: Icon(
+                        Icons.notifications,
+                        size: 30.0,
+                      ),
+                      title: Text(
+                        'Notification',
+                        style: TextStyle(fontSize: 18.0),
+                      ),
                     ),
-                    title: Text(
-                      'Near by Area',
-                      style: TextStyle(fontSize: 18.0),
+                    ListTile(
+                      leading: Icon(
+                        Icons.favorite,
+                        size: 30.0,
+                      ),
+                      title: Text(
+                        'Liked',
+                        style: TextStyle(fontSize: 18.0),
+                      ),
                     ),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.notifications,
-                      size: 30.0,
+                    ListTile(
+                      leading: Icon(
+                        Icons.image,
+                        size: 30.0,
+                      ),
+                      title: Text(
+                        'My Gallery',
+                        style: TextStyle(fontSize: 18.0),
+                      ),
                     ),
-                    title: Text(
-                      'Notification',
-                      style: TextStyle(fontSize: 18.0),
+                    ListTile(
+                      leading: Icon(
+                        Icons.settings,
+                        size: 30.0,
+                      ),
+                      title: Text(
+                        'Account Settings',
+                        style: TextStyle(fontSize: 18.0),
+                      ),
                     ),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.favorite,
-                      size: 30.0,
+                    SizedBox(
+                      height: 100.0,
                     ),
-                    title: Text(
-                      'Liked',
-                      style: TextStyle(fontSize: 18.0),
+                    ListTile(
+                      onTap: () {
+                        _model.logut();
+                        Navigator.pushReplacementNamed(context, 'auth');
+                      },
+                      leading: Icon(
+                        Icons.exit_to_app,
+                        size: 30.0,
+                      ),
+                      title: Text(
+                        'Log Out',
+                        style: TextStyle(fontSize: 18.0),
+                      ),
                     ),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.image,
-                      size: 30.0,
-                    ),
-                    title: Text(
-                      'My Gallery',
-                      style: TextStyle(fontSize: 18.0),
-                    ),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.settings,
-                      size: 30.0,
-                    ),
-                    title: Text(
-                      'Account Settings',
-                      style: TextStyle(fontSize: 18.0),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 100.0,
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.exit_to_app,
-                      size: 30.0,
-                    ),
-                    title: Text(
-                      'Log Out',
-                      style: TextStyle(fontSize: 18.0),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),),
     );
   }
 }

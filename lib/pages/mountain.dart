@@ -32,7 +32,7 @@ class StateMountain extends State<Mountain> {
                   image: AssetImage('assets/${widget._image}.jpg'),
                   fit: BoxFit.cover,
                   colorFilter: ColorFilter.mode(
-                      Colors.black.withOpacity(.55), BlendMode.luminosity))),
+                      Colors.black.withOpacity(.55), BlendMode.darken))),
           child: Container(),
         ),
         Scaffold(

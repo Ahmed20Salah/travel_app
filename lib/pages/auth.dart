@@ -3,6 +3,8 @@ import 'package:scoped_model/scoped_model.dart';
 
 import '../scope_models/users_scope.dart';
 
+import 'category.dart';
+
 import '../models/auth.dart';
 
 class Authenticate extends StatefulWidget {
@@ -13,7 +15,6 @@ class Authenticate extends StatefulWidget {
 }
 
 class AuthenticateState extends State<Authenticate> {
-
   Auth _auth = Auth.Login;
   GlobalKey<FormState> _formState = GlobalKey();
   Map<String, dynamic> _formData = {
@@ -21,8 +22,6 @@ class AuthenticateState extends State<Authenticate> {
     'Email': null,
     'password': null,
   };
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +149,12 @@ class AuthenticateState extends State<Authenticate> {
                                   ? Color.fromRGBO(0, 0, 0, 0)
                                   : Color.fromRGBO(213, 92, 107, 1)),
                           child: FlatButton(
-                            onPressed: () => _submitForm(model),
+                            onPressed: ()  {
+                              setState(() {
+                                _auth = Auth.SignUp;
+                              });
+                              _submitForm(model);
+                              },
                             child: Text('SIGUP',
                                 style: TextStyle(
                                     fontSize: 17, fontWeight: FontWeight.w900)),
@@ -167,7 +171,7 @@ class AuthenticateState extends State<Authenticate> {
   }
 
   void _submitForm(model) async {
-    if(!_formState.currentState.validate()){
+    if (!_formState.currentState.validate()) {
       return;
     }
     print('submitform');
@@ -176,9 +180,10 @@ class AuthenticateState extends State<Authenticate> {
     response = await model.authenticate(
         email: _formData['Email'],
         password: _formData['password'],
-        auth: _auth);
+        auth: _auth , username: _formData['userName']);
     if (response['success']) {
       debugPrint(response['message']);
+      Navigator.of(context).pushReplacementNamed('home');
     } else {
       showDialog(
         context: context,
