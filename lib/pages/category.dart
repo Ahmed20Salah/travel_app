@@ -84,11 +84,12 @@ class Category extends StatelessWidget {
           Navigator.pushNamed(context, 'mountainIn');
         },
         leading: Container(
+          alignment: Alignment.center,
           child: Image.asset('assets/icons/mountain.png'),
           width: 110.0,
         ),
         title: Container(
-          height: 60.0,
+          height: 40.0,
           alignment: Alignment.bottomLeft,
           margin: EdgeInsets.only(bottom: 15.0),
           child: Text('MOUNTAIN'),
@@ -133,13 +134,14 @@ class Category extends StatelessWidget {
           width: 110.0,
         ),
         title: Container(
-          height: 60.0,
+          height: 40.0,
+          
           alignment: Alignment.bottomLeft,
           margin: EdgeInsets.only(bottom: 15.0),
           child: Text('LANDSCAPE'),
         ),
         subtitle: Container(
-          height: 60.0,
+          height: 40.0,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -178,7 +180,7 @@ class Category extends StatelessWidget {
           width: 110.0,
         ),
         title: Container(
-          height: 60.0,
+          height: 40.0,
           alignment: Alignment.bottomLeft,
           margin: EdgeInsets.only(bottom: 15.0),
           child: Text('CITY'),
@@ -223,7 +225,7 @@ class Category extends StatelessWidget {
           width: 110.0,
         ),
         title: Container(
-          height: 60.0,
+          height: 40.0,
           alignment: Alignment.bottomLeft,
           margin: EdgeInsets.only(bottom: 15.0),
           child: Text('SEA'),
@@ -268,7 +270,7 @@ class Category extends StatelessWidget {
           width: 110.0,
         ),
         title: Container(
-          height: 60.0,
+          height: 40.0,
           alignment: Alignment.bottomLeft,
           margin: EdgeInsets.only(bottom: 15.0),
           child: Text('Culture'),

@@ -34,7 +34,7 @@ class AppState extends State<App>{
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: auth ? Home() : Intro_slide(),
+        home:  Home() ,
         routes: {
           'home' : (BuildContext context) => Home(),
           'auth': (BuildContext context)=> Authenticate()

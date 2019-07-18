@@ -36,7 +36,7 @@ class Search extends StatelessWidget {
                       image: AssetImage('assets/dawn.jpg'),
                       fit: BoxFit.cover,
                       colorFilter: ColorFilter.mode(
-                          Colors.black.withOpacity(.6), BlendMode.darken))),
+                          Colors.black.withOpacity(.6), BlendMode.dstOver))),
               child: Column(
                 children: <Widget>[
                   Text(

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:scoped_model/scoped_model.dart';
-import '../scope_models/post_scope.dart';
 
 class Post extends StatelessWidget {
   final File _imageFile;

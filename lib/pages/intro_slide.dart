@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
+import 'package:intro_slider/slide_object.dart';
 
 class Intro_slide extends StatelessWidget{
  List<Slide> _slides = [

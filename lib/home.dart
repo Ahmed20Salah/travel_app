@@ -11,6 +11,7 @@ import 'pages/search.dart';
 import 'pages/category.dart';
 import 'pages/mountainsIn.dart';
 import 'pages/camer.dart';
+import 'pages/auth.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -27,7 +28,8 @@ class _HomeState extends State<Home> {
     '/discover': () => MaterialPageRoute(builder: (context) => Discover()),
     '/search': () => MaterialPageRoute(builder: (context) => Search()),
     'mountainIn': () => MaterialPageRoute(builder: (context) => MountainsIn()),
-    '/': () => MaterialPageRoute(builder: (context) => Category())
+    '/': ()=>MaterialPageRoute(builder: (context) => Category())
+
   };
 
   Color _catagoryColor = Color.fromRGBO(221, 103, 119, 0);
@@ -66,9 +68,9 @@ class _HomeState extends State<Home> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          // list of iconButtons
-          //
-          // for show the drawer
+        // list of iconButtons
+        //
+        // for show the drawer
           Container(
             decoration: BoxDecoration(
               border: Border(
@@ -175,8 +177,7 @@ class _HomeState extends State<Home> {
                     _catagoryColor = null;
                     _discoverColor = null;
                   });
-                  navigatorKey.currentState
-                      .pushReplacementNamed(pages.keys.toList()[1]);
+                   navigatorKey.currentState.pushReplacementNamed(pages.keys.toList()[1]);
                 }),
           ),
 //
@@ -210,16 +211,16 @@ class _HomeState extends State<Home> {
                             content: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                IconButton(
-                                  onPressed: () {
-                                    _imagePicker(context, ImageSource.camera);
-                                  },
-                                  icon: Icon(
-                                    Icons.camera_alt,
-                                    color: Theme.of(context).accentColor,
-                                    size: 35.0,
-                                  ),
-                                ),
+                                // IconButton(
+                                //   onPressed: () {
+                                //     _imagePicker(context, ImageSource.camera);
+                                //   },
+                                //   icon: Icon(
+                                //     Icons.camera_alt,
+                                //     color: Theme.of(context).accentColor,
+                                //     size: 35.0,
+                                //   ),
+                                // ),
                                 SizedBox(
                                   width: 50.0,
                                 ),
@@ -241,8 +242,8 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void _imagePicker(BuildContext context, ImageSource source) {
-    ImagePicker.pickImage(source: source).then((File image) {
+  void _imagePicker(BuildContext context, ImageSource source)async {
+   await ImagePicker.pickImage(source: source).then((File image) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => Post(image)));
     });
@@ -251,130 +252,124 @@ class _HomeState extends State<Home> {
 // for Drawer thing
   Widget _drawer() {
     return Drawer(
-      child: ScopedModelDescendant(
-        builder: (BuildContext context, Widget child, UserScope model) =>
-            Container(
-              color: Color.fromRGBO(230, 107, 128, 1.0),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(top: 60.0),
-                    child: ListTile(
-                      leading: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.black12,
-                            image: DecorationImage(
-                                image: AssetImage('assets/guy-high.jpg'),
-                                fit: BoxFit.cover),
-                            borderRadius: BorderRadius.circular(30.0)),
-                        width: 60.0,
-                        height: 60.0,
-                      ),
-                      title: Text(
-                        'Ahmed Salah',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.white,
-                        ),
-                      ),
-                      subtitle: Text(
-                        'ahmed@tes.com',
-                        style: TextStyle(fontSize: 12.0, color: Colors.white),
-                      ),
+        child:ScopedModelDescendant(builder: (BuildContext context , Widget child , UserScope model) =>  Container(
+          color: Color.fromRGBO(230, 107, 128, 1.0),
+          child: ListView(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 60.0),
+                child: ListTile(
+                  leading: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.black12,
+                        image: DecorationImage(image: AssetImage('assets/guy-high.jpg') , fit: BoxFit.cover),
+                        borderRadius: BorderRadius.circular(30.0)),
+                    width: 60.0,
+                    height: 60.0,
+                  ),
+                  title: Text(
+                    'Ahmed Salah',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.white,
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: 50.0),
-                    child: Column(
-                      children: <Widget>[
-                        ListTile(
-                          leading: Icon(
-                            Icons.apps,
-                            size: 30.0,
-                          ),
-                          title: Text(
-                            'Category',
-                            style: TextStyle(fontSize: 18.0),
-                          ),
-                          onTap: () {
-                            Navigator.of(context)
-                              .pushReplacementNamed(pages.keys.toList()[3]);
-                          },
-                        ),
-                        ListTile(
-                          leading: Icon(
-                            Icons.location_on,
-                            size: 30.0,
-                          ),
-                          title: Text(
-                            'Near by Area',
-                            style: TextStyle(fontSize: 18.0),
-                          ),
-                        ),
-                        ListTile(
-                          leading: Icon(
-                            Icons.notifications,
-                            size: 30.0,
-                          ),
-                          title: Text(
-                            'Notification',
-                            style: TextStyle(fontSize: 18.0),
-                          ),
-                        ),
-                        ListTile(
-                          leading: Icon(
-                            Icons.favorite,
-                            size: 30.0,
-                          ),
-                          title: Text(
-                            'Liked',
-                            style: TextStyle(fontSize: 18.0),
-                          ),
-                        ),
-                        ListTile(
-                          leading: Icon(
-                            Icons.image,
-                            size: 30.0,
-                          ),
-                          title: Text(
-                            'My Gallery',
-                            style: TextStyle(fontSize: 18.0),
-                          ),
-                        ),
-                        ListTile(
-                          leading: Icon(
-                            Icons.settings,
-                            size: 30.0,
-                          ),
-                          title: Text(
-                            'Account Settings',
-                            style: TextStyle(fontSize: 18.0),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 100.0,
-                        ),
-                        ListTile(
-                          onTap: () {
-                            _model.logut();
-                            Navigator.pushReplacementNamed(context, 'auth');
-                          },
-                          leading: Icon(
-                            Icons.exit_to_app,
-                            size: 30.0,
-                          ),
-                          title: Text(
-                            'Log Out',
-                            style: TextStyle(fontSize: 18.0),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
+                  subtitle: Text(
+                    'ahmed@tes.com',
+                    style: TextStyle(fontSize: 12.0, color: Colors.white),
+                  ),
+                ),
               ),
-            ),
-      ),
+              Container(
+                margin: EdgeInsets.only(top: 50.0),
+                child: Column(
+                  children: <Widget>[
+                    ListTile(
+                      leading: Icon(
+                        Icons.apps,
+                        size: 30.0,
+                      ),
+                      title: Text(
+                        'Category',
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                      onTap: (){
+                        Navigator.of(context).pushReplacementNamed('/');
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(
+                        Icons.location_on,
+                        size: 30.0,
+                      ),
+                      title: Text(
+                        'Near by Area',
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                    ),
+                    ListTile(
+                      leading: Icon(
+                        Icons.notifications,
+                        size: 30.0,
+                      ),
+                      title: Text(
+                        'Notification',
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                    ),
+                    ListTile(
+                      leading: Icon(
+                        Icons.favorite,
+                        size: 30.0,
+                      ),
+                      title: Text(
+                        'Liked',
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                    ),
+                    ListTile(
+                      leading: Icon(
+                        Icons.image,
+                        size: 30.0,
+                      ),
+                      title: Text(
+                        'My Gallery',
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                    ),
+                    ListTile(
+                      leading: Icon(
+                        Icons.settings,
+                        size: 30.0,
+                      ),
+                      title: Text(
+                        'Account Settings',
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 100.0,
+                    ),
+                    ListTile(
+                      onTap: () {
+                        _model.logut();
+                        Navigator.pushReplacementNamed(context, 'auth');
+                      },
+                      leading: Icon(
+                        Icons.exit_to_app,
+                        size: 30.0,
+                      ),
+                      title: Text(
+                        'Log Out',
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),),
     );
   }
 }
